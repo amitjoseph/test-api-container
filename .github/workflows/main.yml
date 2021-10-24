@@ -1,0 +1,24 @@
+name: DockerHub Publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+          
+      - name: Docker Login
+        uses: docker/login-action@v1.10.0
+        with:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+          
+      - name: Docker Build
+        run: |
+          docker build -t amitjoseph/test-api-container:latest .
+
+      - name: Push to DockerHub
+        run: |
+          docker push amitjoseph/test-api-container:latest
